@@ -1,42 +1,128 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 600px;
+  height: 800px;
+  text-align: left;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  background-color: #4a5759;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+#start_btn {
+  width: 83%;
+  height: 100px;
+  background-color: #ed9b40;
+  margin-top: 1%;
+  margin-left: 1%;
+}
+
+#speed_and_start_buttons {
+  position: fixed;
+  top: 2%;
+  right: 4%;
+  width: 300px;
+  align-content: center;
+}
+
+#rerace_btn, #slowSpeed, #normSpeed, #fastSpeed, #input_btn {
+  background-color: #ed9b40;
+  margin: 1%;
+} 
+
+.racer {
+  height: 100px;
+  margin-top: 10px;
+  padding-left: 35px;
+  border-radius: 20px;
+  width: 240px;
+  text-shadow: 2px 2px #000000;
+  background-image: url('../public/donkey.png');
+  background-repeat: no-repeat;
+  color: #e1f2ef;
+  transition: margin-left 0.4s;
+  text-overflow: none;
+}
+
+@media (max-width: 700px) {
+  .racer {
+    width: 100px;
+    height: 90px;
+    margin-top: 0;
   }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.place0 {
+  margin-left: 3%;
 }
 
-.card {
-  padding: 2em;
+.place1 {
+  margin-left: 8%;
 }
 
-.read-the-docs {
-  color: #888;
+.place2 {
+  margin-left: 15%;
+}
+
+.place3 {
+  margin-left: 22%;
+}
+
+.place4 {
+  margin-left: 29%;
+}
+
+.place5 {
+  margin-left: 36%;
+}
+
+.place6 {
+  margin-left: 43%;
+}
+
+.place7 {
+  margin-left: 50%;
+}
+
+.place8 {
+  margin-left: 57%;
+}
+
+.place9 {
+  margin-left: 64%;
+}
+
+.place10 {
+  margin-left: 71%;
+}
+
+.place11 {
+  margin-left: 78%;
+}
+
+.place12 {
+  margin-left: 85%;
+}
+
+.place13 {
+  margin-left: 92%;
+  border: 1px solid rgb(255, 180, 41);
+  background-color: rgba(0, 0, 0, 0.9);
+  font-size: 30px;
+  width: 80px;
+}
+
+.place14 {
+  margin-left: 92%;
+  border: 1px solid rgb(255, 180, 41);
+  background-color: rgba(0, 0, 0, 0.9);
+  font-size: 30px;
+  width: 80px;
+}
+
+.place15 {
+  margin-left: 92%;
+  border: 1px solid rgb(255, 180, 41);
+  background-color: rgba(0, 0, 0, 0.9);
+  font-size: 30px;
+  width: 80px;
 }
