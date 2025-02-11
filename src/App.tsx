@@ -154,7 +154,13 @@ function App() {
           name="name" 
           type="text"
           value={name} 
-          onChange={(e) => inputAttribute(e)}/>
+          onChange={(e) => inputAttribute(e)}
+          onKeyDownCapture={(e) => {
+            if (e.key === 'Enter') {
+              inputBtn();
+            }
+          }}
+          />
         <Tooltip title="Add Contestant!" arrow>
           <Button id="input_btn" variant="contained" color="primary" onClick={() => inputBtn()}>
             +
@@ -267,12 +273,14 @@ function App() {
     setRacers(racerUpdate);
     if ((racerUpdate[randomIndex].currentPlace >= finishPlace)) {
       winner(racerUpdate, randomIndex);
+      setWinCondition(true);
+    } else {
+      setTimeout(() => {
+        if (!winCondition) {
+          startRace();
+        }
+      }, racerUpdate[randomIndex].name ? raceSpeed : 0);
     }
-    setTimeout(() => {
-      if (!winCondition) {
-        startRace();
-      }
-    }, racerUpdate[randomIndex].name ? raceSpeed : 0);
   }
 
   const reRace = () => {
@@ -294,6 +302,7 @@ function App() {
       setWinCondition(true);
     }, 600);
     const message = racerUpdate[randomIndex].name + " is the winner!!";
+    setWinCondition(true);
     setRaceMessage(message);
   }
 
