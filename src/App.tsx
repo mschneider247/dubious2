@@ -23,8 +23,8 @@ const Header = styled.div`
 `;
 
 const RaceMessage = styled.div`
-  width: 700px;
-  font-size: 30px;
+  width: 90%;
+  font-size: 1.5em;
   color: #ED9B40;
   margin: 2% auto;
   @media (max-width: 900px) {
@@ -39,25 +39,12 @@ const Body = styled.div`
 `
 
 const InputRacers = styled.div`
-  margin-left: 40px;
+  display: flex;
   input {
     background: transparent;
     height: 32px;
     color: white;
     margin-right: 5%;
-  }
-`
-
-const NameBackground = styled.div`
-  border-radius: 10px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
-`
-
-const RacerName = styled.div`
-  font-size: 28px;
-
-  @media (max-width: 700px) {
-    font-size: 20px;
   }
 `
 
@@ -85,36 +72,25 @@ const RaceTrack = styled.div`
 `;
 
 const DeleteBtn = styled.button`
-  position: absolute;
-  left: 18px;
-  font-size: 30px;
+  font-size: 2em;
   background: transparent;
   outline: none;
   border: none;
   &:hover {
     cursor: pointer;
-    font-size: 35px;
+    font-size: 2.1em;
     outline: none;
-  }
-  @media (max-width: 700px) {
-    left: 0px;
-    font-size: 18px;
   }
 `
 
 const CarrotBtn = styled.button`
-  position: absolute;
-  left: 42px;
-  font-size: 30px;
+  font-size: 2em;
   background: transparent;
   border: none;
   &:hover {
     cursor: pointer;
-    font-size: 35px;
-  }
-  @media (max-width: 700px) {
-    left: 22px;
-    font-size: 18px;
+    font-size: 2.1em;
+    outline: none;
   }
 `
 
@@ -140,7 +116,7 @@ function App() {
   const [racers, setRacers] = useState<any[]>([]);
   const [icons] = useState(["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐵", "🤪", "🤨", "🧐", "🤓", "😎", "🤩", "🥳", "🥴", "🤢", "🤮", "🤒", "🤕", "🤑", "🤠", "😈", "👹", "💀", "👽", "👾", "🤖", "🎃", "🧠","😭", "😤", "🤬", "🤯", "🥶", "😱", "🐲"]);
   const [lastRacers, setLastRacers] = useState<any[]>([]);
-  const [raceSpeed, setRaceSpeed] = useState(420);
+  const [raceSpeed, setRaceSpeed] = useState(300);
 
   const inputAttribute = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -336,25 +312,26 @@ function App() {
     const racePosition = `racer place${racer.currentPlace}`;
     return (
       <div key={racer.id} className={racePosition}>
-        <Tooltip title="Stabby stab cut cut">
-          <DeleteBtn onClick={() => deleteRacer(racer.id)}>
-            🗡
-          </DeleteBtn>
-        </Tooltip>
-        <Tooltip title="BOOST!" arrow>
-          <CarrotBtn onClick={() => boostRacer(racer.id)}>
-            <span role="img" aria-label="carrot">🥕</span>
-          </CarrotBtn>
-        </Tooltip>
-        <Typography variant="h4">
+        <div className="daggerAndCarrot">
+          <Tooltip title="Stabby stab cut cut">
+            <DeleteBtn onClick={() => deleteRacer(racer.id)}>
+              <span role="img" aria-label="dagger">🗡️</span>
+            </DeleteBtn>
+          </Tooltip>
+          <Tooltip title="BOOST!" arrow>
+            <CarrotBtn onClick={() => boostRacer(racer.id)}>
+              <span role="img" aria-label="carrot">🥕</span>
+            </CarrotBtn>
+          </Tooltip>
+        </div>
+        
+        <div className="racerHead">
           {racer.icon}
-        </Typography>
+        </div>
         <br/>
-        <NameBackground>
-          <RacerName>
-            {racer.name}
-          </RacerName> 
-        </NameBackground>
+        <div className="racerName">
+         {racer.name}
+        </div>
       </div>
     );
   });
@@ -364,15 +341,14 @@ function App() {
       <Header>
         {(!raceStart) && (
           <TitleAndRules>
-            <Typography variant="h2">Dubious Derby</Typography>
+            <Typography variant="h4">Dubious Derby</Typography>
             {raceStart === false && inputRacers()}
           </TitleAndRules>
         )}
         {(!raceStart) && (
           <div id="speed_and_start_buttons">
-            <Tooltip title="Game Speed" arrow>
               <ButtonGroup
-                size="large"
+                size="small"
                 color="primary"
                 aria-label="speed buttons"
               >
@@ -381,7 +357,7 @@ function App() {
                     id="slowSpeed"
                     variant="contained"
                     color="primary"
-                    onClick={() => setSpeed(680)}
+                    onClick={() => setSpeed(600)}
                   >
                     Slow
                   </Button>
@@ -391,7 +367,7 @@ function App() {
                     id="normSpeed"
                     variant="contained"
                     color="primary"
-                    onClick={() => setSpeed(420)}
+                    onClick={() => setSpeed(300)}
                   >
                     Norm
                   </Button>
@@ -401,19 +377,18 @@ function App() {
                     id="fastSpeed"
                     variant="contained"
                     color="primary"
-                    onClick={() => setSpeed(180)}
+                    onClick={() => setSpeed(120)}
                   >
                     Fast
                   </Button>
                 </Tooltip>
               </ButtonGroup>
-            </Tooltip>
             <Tooltip title="Start the Race!" arrow>
               <Button
                 id="start_btn"
                 variant="contained"
                 color="primary"
-                size="large"
+                size="medium"
                 onClick={() => setupRace()}
               >
                 Start

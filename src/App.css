@@ -9,8 +9,8 @@ body {
 }
 
 #start_btn {
-  width: 83%;
-  height: 100px;
+  width: 93%;
+  height: 8%;
   background-color: #ed9b40;
   margin-top: 1%;
   margin-left: 1%;
@@ -29,12 +29,16 @@ body {
   margin: 1%;
 } 
 
+.daggerAndCarrot {
+  position: fixed;
+  left: -1%;
+  display: flex;
+  flex-direction: column;
+}
+
 .racer {
   height: 100px;
-  margin-top: 10px;
-  padding-left: 35px;
   border-radius: 20px;
-  width: 240px;
   text-shadow: 2px 2px #000000;
   background-image: url('../public/donkey.png');
   background-repeat: no-repeat;
@@ -43,16 +47,20 @@ body {
   text-overflow: none;
 }
 
-@media (max-width: 700px) {
-  .racer {
-    width: 100px;
-    height: 90px;
-    margin-top: 0;
-  }
+.racerHead {
+  position: relative;
+  font-size: 2.5em;
+  left: 30px;
+}
+
+.racerName {
+  position: fixed;
+  left: 1%;
+  font-size: 1.5em;
 }
 
 .place0 {
-  margin-left: 3%;
+  margin-left: 5%;
 }
 
 .place1 {
