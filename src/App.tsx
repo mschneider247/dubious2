@@ -61,14 +61,9 @@ const RaceStats = styled.div`
 
 const RaceTrack = styled.div`
   background-image: url(${racetrack});
-  background-size: 100% 400px;
+  background-size: 100% 100%;
   background-repeat: repeat-y;
-  padding: 6px 30px;
   border-radius: 2px;
-  @media (max-width: 700px) {
-    padding: 4px 0px;
-    margin-left: -30px;
-  }
 `;
 
 const DeleteBtn = styled.button`
@@ -78,8 +73,6 @@ const DeleteBtn = styled.button`
   border: none;
   &:hover {
     cursor: pointer;
-    font-size: 2.1em;
-    outline: none;
   }
 `
 
@@ -89,8 +82,6 @@ const CarrotBtn = styled.button`
   border: none;
   &:hover {
     cursor: pointer;
-    font-size: 2.1em;
-    outline: none;
   }
 `
 
@@ -107,7 +98,7 @@ const CarrotBtn = styled.button`
 function App() {
 
   const [name, setName] = useState("");
-  const [currentRound, setCurrentRound] = useState(0);
+  const [currentRound, setCurrentRound] = useState(1);
   const [finishPlace] = useState(13);
   const [raceStart, setRaceStart] = useState(false);
   const [raceMessage, setRaceMessage] = useState("Welcome! Add Contestants, then hit start!");
@@ -225,7 +216,7 @@ function App() {
     }
     setRaceMessage("The race has started!!");
     setRaceStart(true);
-    startRace();
+    runRace();
   }
 
   const speedBoostCheck = (currentRacer: any) => {
@@ -235,7 +226,21 @@ function App() {
     return false;
   }
 
-  const startRace = () => {
+  const updateMessage = (racerUpdate: any[], currentRacer: any, currentPlace: number, checkRound: number) => {
+    // Did the current racer move into first place?
+    // Is the current racer catching up?
+    setCurrentRound(checkRound + 1);
+    console.log('checkRound, currentRound', checkRound, currentRound);
+    console.log('racerUpdate', racerUpdate);
+    console.log('currentRacer', currentRacer);
+    console.log('currentPlace', currentPlace);
+
+    
+
+  }
+
+  const runRace = () => {
+    const checkRound = currentRound;
     const numRacers = racers.length;
     const randomIndex = Math.floor((Math.random() * numRacers));
     const racerUpdate = [...racers];
@@ -245,15 +250,15 @@ function App() {
     if (speedBoostCheck(racerUpdate[randomIndex])) {
       racerUpdate[randomIndex].currentPlace++;
     }
-    setCurrentRound(currentRound + 1);
     setRacers(racerUpdate);
+    updateMessage(racerUpdate, racerUpdate[randomIndex], racerUpdate[randomIndex].currentPlace, checkRound);
     if ((racerUpdate[randomIndex].currentPlace >= finishPlace)) {
       winner(racerUpdate, randomIndex);
       setWinCondition(true);
     } else {
       setTimeout(() => {
         if (!winCondition) {
-          startRace();
+          runRace();
         }
       }, racerUpdate[randomIndex].name ? raceSpeed : 0);
     }
@@ -311,27 +316,36 @@ function App() {
   const displayRacers = racers.map(racer => {
     const racePosition = `racer place${racer.currentPlace}`;
     return (
-      <div key={racer.id} className={racePosition}>
-        <div className="daggerAndCarrot">
-          <Tooltip title="Stabby stab cut cut">
-            <DeleteBtn onClick={() => deleteRacer(racer.id)}>
-              <span role="img" aria-label="dagger">🗡️</span>
-            </DeleteBtn>
-          </Tooltip>
-          <Tooltip title="BOOST!" arrow>
-            <CarrotBtn onClick={() => boostRacer(racer.id)}>
-              <span role="img" aria-label="carrot">🥕</span>
-            </CarrotBtn>
-          </Tooltip>
+      <div key={racer.id} className='raceBox'>
+        <div className="raceLane">
+
+            <div className="daggerAndCarrot">
+              <Tooltip title="Stabby stab cut cut">
+                <DeleteBtn onClick={() => deleteRacer(racer.id)}>
+                  <span role="img" aria-label="dagger">🗡️</span>
+                </DeleteBtn>
+              </Tooltip>
+              <Tooltip title="BOOST!" arrow>
+                <CarrotBtn onClick={() => boostRacer(racer.id)}>
+                  <span role="img" aria-label="carrot">🥕</span>
+                </CarrotBtn>
+              </Tooltip>
+            </div>
+
+            <div className={racePosition}>
+              <div className="racerHead">
+                {racer.icon}
+              </div>
+            </div>
+
         </div>
-        
-        <div className="racerHead">
-          {racer.icon}
-        </div>
+
         <br/>
+
         <div className="racerName">
          {racer.name}
         </div>
+
       </div>
     );
   });
