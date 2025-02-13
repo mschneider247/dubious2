@@ -226,11 +226,10 @@ function App() {
     return false;
   }
 
-  const updateMessage = (racerUpdate: any[], currentRacer: any, currentPlace: number, checkRound: number) => {
+  const updateMessage = (racerUpdate: any[], currentRacer: any, currentPlace: number) => {
     // Did the current racer move into first place?
     // Is the current racer catching up?
-    setCurrentRound(checkRound + 1);
-    console.log('checkRound, currentRound', checkRound, currentRound);
+    console.log(' currentRound', currentRound);
     console.log('racerUpdate', racerUpdate);
     console.log('currentRacer', currentRacer);
     console.log('currentPlace', currentPlace);
@@ -240,7 +239,6 @@ function App() {
   }
 
   const runRace = () => {
-    const checkRound = currentRound;
     const numRacers = racers.length;
     const randomIndex = Math.floor((Math.random() * numRacers));
     const racerUpdate = [...racers];
@@ -251,7 +249,7 @@ function App() {
       racerUpdate[randomIndex].currentPlace++;
     }
     setRacers(racerUpdate);
-    updateMessage(racerUpdate, racerUpdate[randomIndex], racerUpdate[randomIndex].currentPlace, checkRound);
+    updateMessage(racerUpdate, racerUpdate[randomIndex], racerUpdate[randomIndex].currentPlace);
     if ((racerUpdate[randomIndex].currentPlace >= finishPlace)) {
       winner(racerUpdate, randomIndex);
       setWinCondition(true);
