@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { Button, Typography, Tooltip, ButtonGroup } from '@mui/material';
 import styled from 'styled-components';
@@ -109,6 +109,14 @@ function App() {
   const [lastRacers, setLastRacers] = useState<any[]>([]);
   const [raceSpeed, setRaceSpeed] = useState(300);
 
+  useEffect(() => {
+    chrome.storage.sync.get(['racers'], (result) => {
+      if (result.racers) {
+        setRacers(result.racers);
+      }
+    });
+  }, []);
+
   const inputAttribute = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   }
@@ -150,6 +158,7 @@ function App() {
         icon: icons[Math.floor(Math.random() * icons.length)],
       }
       setRacers([...racers, newRacer]);
+      chrome.storage.sync.set({ racers: [...racers, newRacer] });
       setName("");
     } else {
       setRaceMessage("Please enter a name!");
@@ -189,9 +198,13 @@ function App() {
       return racer;
     }).filter(racer => racer !== null);
     setRacers(smallerRoster as any[]);
+    chrome.storage.sync.set({ racers: smallerRoster });
   }
 
   const boostRacer = (id: number) => {
+    chrome.storage.sync.clear(() => {
+      console.log('Chrome storage cleared');
+    });
     const boostRoster = racers.map(racer => {
       if (racer.id === id) {
         racer.speedboost = true;
@@ -207,6 +220,7 @@ function App() {
       return racer;
     });
     setRacers(boostRoster);
+    chrome.storage.sync.set({ racers: boostRoster });
   }
 
   const setupRace = () => {
@@ -226,16 +240,20 @@ function App() {
     return false;
   }
 
-  const updateMessage = (racerUpdate: any[], currentRacer: any, currentPlace: number) => {
+  const updateMessage = (racerUpdate: any[], currentRacer: any, currentPlace: number, thisRound: number) => {
     // Did the current racer move into first place?
     // Is the current racer catching up?
-    console.log(' currentRound', currentRound);
+    const nextRound = thisRound + 1;
+    let message = '';
+    console.log(' currentRound', thisRound, nextRound);
     console.log('racerUpdate', racerUpdate);
     console.log('currentRacer', currentRacer);
     console.log('currentPlace', currentPlace);
-
-    
-
+    if (thisRound === 1) {
+      message = "And they're off!";
+      setRaceMessage(message);
+    }
+    setCurrentRound(nextRound);
   }
 
   const runRace = () => {
@@ -249,7 +267,7 @@ function App() {
       racerUpdate[randomIndex].currentPlace++;
     }
     setRacers(racerUpdate);
-    updateMessage(racerUpdate, racerUpdate[randomIndex], racerUpdate[randomIndex].currentPlace);
+    updateMessage(racerUpdate, racerUpdate[randomIndex], racerUpdate[randomIndex].currentPlace, currentRound);
     if ((racerUpdate[randomIndex].currentPlace >= finishPlace)) {
       winner(racerUpdate, randomIndex);
       setWinCondition(true);
@@ -273,6 +291,8 @@ function App() {
     setWinCondition(false);
     setRaceStart(false);
     setRacers(refreshRacers);
+    chrome.storage.sync.set({ racers: refreshRacers });
+    setRaceMessage("Welcome! Add Contestants, then hit start!");
   }
 
   const winner = (racerUpdate: any[], randomIndex: number) => {
@@ -353,7 +373,7 @@ function App() {
       <Header>
         {(!raceStart) && (
           <TitleAndRules>
-            <Typography variant="h4">Dubious Derby</Typography>
+            <Typography variant="h4">Dubious Derby !</Typography>
             {raceStart === false && inputRacers()}
           </TitleAndRules>
         )}
